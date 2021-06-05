@@ -39,7 +39,7 @@ const server = new ApolloServer({
   schema: buildFederatedSchema([{ typeDefs, resolvers }]),
 })
 
-const port = process.env.PORT || 3002
+const port = process.env.PORT || 4000
 
 server.listen({ port }).then(({ url }) => {
   console.log(`Cabbages service ready at ${url}`)
