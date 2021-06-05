@@ -1,36 +1,36 @@
 const { ApolloServer, gql } = require('apollo-server')
 const { buildFederatedSchema } = require('@apollo/federation')
 
-const accounts = [
+const cabbages = [
   {
     id: 1,
-    name: 'indigov',
+    name: 'Mark',
   },
 ]
 
 const typeDefs = gql`
-  type Account @key(fields: "id") {
+  type Cabbage @key(fields: "id") {
     id: ID!
     name: String
   }
   extend type Query {
-    account(id: ID!): Account
-    accounts: [Account]
+    cabbage(id: ID!): Cabbage
+    cabbages: [Cabbage]
   }
 `
 
 const resolvers = {
-  Account: {
+  Cabbage: {
     _resolveReference(object) {
-      return accounts.find((account) => account.id === object.id)
+      return cabbages.find((cabbages) => cabbages.id === object.id)
     },
   },
   Query: {
-    account(parent, { id }) {
-      return accounts.find((account) => account.id === id)
+    cabbage(parent, { id }) {
+      return cabbages.find((cabbages) => cabbages.id === id)
     },
-    accounts() {
-      return accounts
+    cabbages() {
+      return cabbages
     },
   },
 }
@@ -42,5 +42,5 @@ const server = new ApolloServer({
 const port = process.env.PORT || 3002
 
 server.listen({ port }).then(({ url }) => {
-  console.log(`Accounts service ready at ${url}`)
+  console.log(`Cabbages service ready at ${url}`)
 })
