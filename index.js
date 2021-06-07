@@ -37,6 +37,13 @@ const resolvers = {
 
 const server = new ApolloServer({
   schema: buildFederatedSchema([{ typeDefs, resolvers }]),
+  context: ({ req }) => {
+    const authHeader = req.headers.authorization
+    if (!authHeader) throw new Error('missing authorization header')
+    const base64Token = authHeader.replace(/basic /i, '')
+    const userPass = Buffer.from(base64Token, 'base64').toString()
+    if (userPass !== 'ilike:cabbages') throw new Error('incorrect user/pass')
+  },
 })
 
 const port = process.env.PORT || 4000
