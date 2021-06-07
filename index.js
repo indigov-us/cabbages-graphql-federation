@@ -41,8 +41,7 @@ const server = new ApolloServer({
     const authHeader = req.headers.authorization
     if (!authHeader) throw new Error('missing authorization header')
     const base64Token = authHeader.replace(/basic /i, '')
-    const userPass = Buffer.from(base64Token, 'base64').toString()
-    if (userPass !== 'ilike:cabbages') throw new Error('incorrect user/pass')
+    if (base64Token !== process.env.SUBGRAPH_BASIC_AUTH_VALUE) throw new Error('incorrect user/pass')
   },
 })
 
